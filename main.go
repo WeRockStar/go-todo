@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/werockstar/go-todo/reader"
+	todo "github.com/werockstar/go-todo/todo"
 	"os"
 )
 
 func main() {
-	todos, err := reader.ReadAll("todos.csv")
+	t := todo.New("todos.csv")
+	records, err := t.ReadAll()
 	if err != nil {
 		fmt.Printf("Error: %s", err.Error())
 	}
@@ -31,10 +32,18 @@ func main() {
 		switch menu {
 		case 1:
 			fmt.Println("=============== Todo List ===============")
-			for _, todo := range todos {
-				fmt.Printf("%d. %s %s\n", todo.ID, todo.Description, todo.Status)
+			for _, t := range records {
+				fmt.Printf("%d. %s %s\n", t.ID, t.Description, t.Status)
 			}
 			fmt.Println("================= End ==================")
+		case 2:
+			var description string
+			fmt.Print("Enter Todo Description: ")
+			_, _ = fmt.Scanf("%s\n", &description)
+			err := t.Add(todo.Todo{ID: 3, Description: description, Status: todo.Status("No")})
+			if err != nil {
+				return
+			}
 		case 0:
 			os.Exit(0)
 		}
