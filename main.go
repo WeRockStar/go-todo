@@ -6,6 +6,26 @@ import (
 	"os"
 )
 
+var (
+	bannerText = `
+___________        .___      
+\__    ___/___   __| _/____  
+  |    | /  _ \ / __ |/  _ \ 
+  |    |(  <_> ) /_/ (  <_> )
+  |____| \____/\____ |\____/ 
+                    \/       
+`[1:]
+	optionsText = `
+Usage options:
+1. View All Todo
+2. Add Todo
+3. Mark as Done
+4. View Done Only
+5. View In-progress Only
+0. Exit
+`[1:]
+)
+
 func main() {
 	t := todo.New("todos.csv")
 	records, err := t.ReadAll()
@@ -14,15 +34,10 @@ func main() {
 	}
 
 	var menu int
-	fmt.Println("Welcome to Todo App")
+	fmt.Println(bannerText)
+	fmt.Print(optionsText)
 	for {
-		fmt.Println("Enter: 1 View All Todo")
-		fmt.Println("Enter: 2 Add Todo")
-		fmt.Println("Enter: 3 Mark as Done")
-		fmt.Println("Enter: 4 View Done Only")
-		fmt.Println("Enter: 5 View In-progress Only")
-		fmt.Println("Enter: 0 Exit")
-		fmt.Print("Enter: ")
+		fmt.Print("Enter option: ")
 		_, err := fmt.Scanf("%d\n", &menu)
 		if err != nil {
 			fmt.Printf("Error: %s", err.Error())
@@ -31,19 +46,19 @@ func main() {
 
 		switch menu {
 		case 1:
-			fmt.Println("=============== Todo List ===============")
 			for _, t := range records {
 				fmt.Printf("%d. %s %s\n", t.ID, t.Description, t.Status)
 			}
-			fmt.Println("================= End ==================")
+			break
 		case 2:
 			var description string
-			fmt.Print("Enter Todo Description: ")
-			_, _ = fmt.Scanf("%s\n", &description)
-			err := t.Add(todo.Todo{ID: 3, Description: description, Status: todo.Status("No")})
+			fmt.Print("Todo: ")
+			_, _ = fmt.Scanf("%s", &description)
+			err := t.Add(todo.Todo{Description: description})
 			if err != nil {
-				return
+				continue
 			}
+			break
 		case 0:
 			os.Exit(0)
 		}

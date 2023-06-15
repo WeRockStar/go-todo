@@ -77,12 +77,18 @@ func (f *File) Add(todo Todo) error {
 		}
 	}(file)
 	w := csv.NewWriter(file)
-	w.Flush()
 
+	todos, err := f.ReadAll()
+	if err != nil {
+		return err
+	}
+	todo.ID = len(todos) + 1
+	todo.Status = "No"
 	record := []string{strconv.Itoa(todo.ID), todo.Description, string(todo.Status)}
 	err = w.Write(record)
 	if err != nil {
 		return err
 	}
+	w.Flush()
 	return nil
 }
