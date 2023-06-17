@@ -28,7 +28,7 @@ Usage options:
 
 func main() {
 	t := todo.New("todos.csv")
-	records, err := t.ReadAll()
+	todos, err := t.ReadAll()
 	if err != nil {
 		fmt.Printf("Error: %s", err.Error())
 	}
@@ -46,7 +46,7 @@ func main() {
 
 		switch menu {
 		case 1:
-			for _, t := range records {
+			for _, t := range todos {
 				fmt.Printf("%d. %s %s\n", t.ID, t.Description, t.Status)
 			}
 			break
