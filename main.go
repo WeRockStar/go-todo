@@ -19,9 +19,9 @@ ___________        .___
 Usage options:
 1. View All Todo
 2. Add Todo
-3. Mark as Done
-4. View Done Only
-5. View In-progress Only
+3. Mark Done
+4. View Done Todo
+5. View In-progress Todo
 0. Exit
 `[1:]
 )
