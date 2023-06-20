@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	todo "github.com/werockstar/go-todo/todo"
 	"os"
@@ -51,9 +52,10 @@ func main() {
 			}
 			break
 		case 2:
-			var description string
 			fmt.Print("Todo: ")
-			_, _ = fmt.Scanf("%s", &description)
+			scanner := bufio.NewScanner(os.Stdin)
+			scanner.Scan()
+			description := scanner.Text()
 			err := t.Add(todo.Todo{Description: description})
 			if err != nil {
 				continue
